@@ -1,0 +1,11 @@
+opencv-python
+mediapipe
+plyer
+websockets
+numpy
+pystray
+Pillow
+pygetwindow
+pywin32; sys_platform == 'win32'
+cryptography
+pytest
