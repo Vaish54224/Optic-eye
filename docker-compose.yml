@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_WS_URL=ws://localhost:8765
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8765:8765"
+    # To capture the webcam, container needs privileged access and device mappings.
+    # Note: Device mapping /dev/video0 is Linux-specific. On Windows/macOS,
+    # the backend service should be run natively outside of Docker.
+    privileged: true
+    devices:
+      - "/dev/video0:/dev/video0"
+    volumes:
+      - ./backend:/app
